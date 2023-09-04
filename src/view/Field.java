@@ -9,10 +9,15 @@ public class Field extends JButton {
     private fieldStatus occupiedBy;
     private final Sheet sheet;
 
-    public Field(fieldStatus occupiedBy, Color background, Sheet sheet) {
+
+    private Color background;
+
+    public Field(fieldStatus occupiedBy, Color background, Sheet sheet, Board board, int row, int col) {
+        this.background = background;
         setBackground(background);
         this.sheet = sheet;
         setPiece(occupiedBy);
+        addActionListener(e -> board.getView().getController().handleFieldClick(row, col, board));
     }
 
     public void setPiece(fieldStatus occupiedBy) {
@@ -24,6 +29,18 @@ public class Field extends JButton {
             case BLACK_KING -> setIcon(sheet.getBlackKingIcon());
             case WHITE_KING -> setIcon(sheet.getWhiteKingIcon());
         }
+    }
+
+    public void toSelectColor() {
+        setBackground(Color.CYAN);
+    }
+
+    public void toNormalColor() {
+        setBackground(background);
+    }
+
+    public void toRemoveColor() {
+        setBackground(Color.red);
     }
 
     public fieldStatus getOccupiedBy() {

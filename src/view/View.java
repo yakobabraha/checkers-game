@@ -1,18 +1,26 @@
 package src.view;
 
 
+import src.controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class View extends JFrame {
 
+    private Controller controller;
+
     private final CardLayout cardLayout = new CardLayout();
     private final JPanel menu = new JPanel();
     private final JPanel game = new JPanel();
     private final JPanel settings = new JPanel();
     private final JPanel rules = new JPanel();
+
+    private final JLabel turnLabel = new JLabel("Black's turn");
+    private final JLabel errorLabel = new JLabel("");
     private final Sheet sheet;
+    private final JButton moveButton = new JButton("move");
 
     public View() {
         sheet = new Sheet("res/checkers_pieces.png");
@@ -77,7 +85,8 @@ public class View extends JFrame {
 
     private void setupGame() {
         game.setLayout(new BorderLayout());
-        Board board = new Board(8, new Color(102, 68, 46), new Color(247, 236, 202), sheet);
+        Board board = new Board(8, new Color(102, 68, 46), new Color(247, 236, 202), sheet,
+                this);
         game.add(board, BorderLayout.CENTER);
 
         JPanel lineStart = new JPanel();
@@ -86,6 +95,16 @@ public class View extends JFrame {
         JPanel lineEnd = new JPanel();
         lineEnd.setBackground(Color.gray);
         lineEnd.setPreferredSize(new Dimension(300, 300));
+        lineEnd.add(turnLabel);
+        turnLabel.setFont(new Font("ariel", Font.PLAIN, 30));
+        lineEnd.add(errorLabel);
+        errorLabel.setFont(new Font("ariel", Font.PLAIN, 30));
+        errorLabel.setForeground(Color.YELLOW);
+        moveButton.setMaximumSize(new Dimension(200, 50));
+        moveButton.setFont(new Font("ariel", Font.PLAIN, 25));
+        moveButton.addActionListener(e -> controller.move());
+        moveButton.setVisible(false);
+        lineEnd.add(moveButton);
         JPanel pageStart = new JPanel();
         pageStart.setBackground(Color.gray);
         pageStart.setPreferredSize(new Dimension(50, 50));
@@ -132,5 +151,29 @@ public class View extends JFrame {
 
     private ActionListener getSwitchCardListener(String toCard) {
         return e -> cardLayout.show(View.this.getContentPane(), toCard);
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setTurnLabel(boolean isBlacksTurn) {
+        if (isBlacksTurn) {
+            turnLabel.setText("Black's turn");
+        } else {
+            turnLabel.setText("White's turn");
+        }
+    }
+
+    public void setErrorLabel(String text) {
+        errorLabel.setText(text);
+    }
+
+    public void setMoveButtonVisible(boolean visible) {
+        moveButton.setVisible(visible);
     }
 }

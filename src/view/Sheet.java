@@ -14,10 +14,10 @@ public class Sheet {
     public Sheet(String path) {
         try {
             BufferedImage sheet = ImageIO.read(new File(path));
-            whiteManIcon = new ImageIcon(sheet.getSubimage(0, 0, 75, 75));
-            whiteKingIcon = new ImageIcon(sheet.getSubimage(0, 75, 75, 75));
-            blackManIcon = new ImageIcon(sheet.getSubimage(75, 0, 75, 75));
-            blackKingIcon = new ImageIcon(sheet.getSubimage(75, 75, 75, 75));
+            blackManIcon = new ImageIcon(sheet.getSubimage(0, 0, 75, 75));
+            blackKingIcon = new ImageIcon(sheet.getSubimage(0, 75, 75, 75));
+            whiteManIcon = new ImageIcon(sheet.getSubimage(75, 0, 75, 75));
+            whiteKingIcon = new ImageIcon(sheet.getSubimage(75, 75, 75, 75));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
