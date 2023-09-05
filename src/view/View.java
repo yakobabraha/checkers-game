@@ -5,7 +5,6 @@ import src.controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class View extends JFrame {
 
@@ -17,10 +16,14 @@ public class View extends JFrame {
     private final JPanel settings = new JPanel();
     private final JPanel rules = new JPanel();
 
+    public enum ViewPage {Menu, Game, Settings, Rules}
+
     private final JLabel turnLabel = new JLabel("Black's turn");
     private final JLabel errorLabel = new JLabel("");
     private final Sheet sheet;
     private final JButton moveButton = new JButton("move");
+
+    private Board board;
 
     public View() {
         sheet = new Sheet("res/checkers_pieces.png");
@@ -54,19 +57,19 @@ public class View extends JFrame {
         gameButton.setMaximumSize(new Dimension(400, 50));
         gameButton.setFont(new Font("ariel", Font.PLAIN, 25));
         gameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        gameButton.addActionListener(getSwitchCardListener("game"));
+        gameButton.addActionListener(e -> controller.switchToGame());
 
         JButton settingsButton = new JButton("Settings");
         settingsButton.setMaximumSize(new Dimension(400, 50));
         settingsButton.setFont(new Font("ariel", Font.PLAIN, 25));
         settingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        settingsButton.addActionListener(getSwitchCardListener("settings"));
+        settingsButton.addActionListener(e -> switchToPage(ViewPage.Settings));
 
         JButton rulesButton = new JButton("Rules");
         rulesButton.setMaximumSize(new Dimension(400, 50));
         rulesButton.setFont(new Font("ariel", Font.PLAIN, 25));
         rulesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        rulesButton.addActionListener(getSwitchCardListener("rules"));
+        rulesButton.addActionListener(e -> switchToPage(ViewPage.Rules));
 
         menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
         menu.add(menuTitle);
@@ -85,13 +88,13 @@ public class View extends JFrame {
 
     private void setupGame() {
         game.setLayout(new BorderLayout());
-        Board board = new Board(8, new Color(102, 68, 46), new Color(247, 236, 202), sheet,
+        board = new Board(8, new Color(102, 68, 46), new Color(247, 236, 202), sheet,
                 this);
         game.add(board, BorderLayout.CENTER);
 
         JPanel lineStart = new JPanel();
         lineStart.setBackground(Color.gray);
-        lineStart.setPreferredSize(new Dimension(300,300));
+        lineStart.setPreferredSize(new Dimension(300, 300));
         JPanel lineEnd = new JPanel();
         lineEnd.setBackground(Color.gray);
         lineEnd.setPreferredSize(new Dimension(300, 300));
@@ -115,13 +118,20 @@ public class View extends JFrame {
         JButton menuButton = new JButton("Back to Menu");
         menuButton.setMaximumSize(new Dimension(200, 50));
         menuButton.setFont(new Font("ariel", Font.PLAIN, 25));
-        menuButton.addActionListener(getSwitchCardListener("menu"));
+        menuButton.addActionListener(e -> switchToPage(ViewPage.Menu));
         pageEnd.add(menuButton);
 
         game.add(lineStart, BorderLayout.LINE_START);
         game.add(lineEnd, BorderLayout.LINE_END);
         game.add(pageStart, BorderLayout.PAGE_START);
         game.add(pageEnd, BorderLayout.PAGE_END);
+    }
+
+    public void startNewGame() {
+        board.setupFields();
+        setTurnLabel(true);
+        setMoveButtonVisible(false);
+        setErrorLabel("");
     }
 
     private void setupSettings() {
@@ -131,7 +141,7 @@ public class View extends JFrame {
         JButton menuButton = new JButton("Back to Menu");
         menuButton.setMaximumSize(new Dimension(200, 50));
         menuButton.setFont(new Font("ariel", Font.PLAIN, 25));
-        menuButton.addActionListener(getSwitchCardListener("menu"));
+        menuButton.addActionListener(e -> switchToPage(ViewPage.Menu));
         settings.add(settingTitle);
         settings.add(menuButton);
     }
@@ -143,14 +153,19 @@ public class View extends JFrame {
         JButton menuButton = new JButton("Back to Menu");
         menuButton.setMaximumSize(new Dimension(200, 50));
         menuButton.setFont(new Font("ariel", Font.PLAIN, 25));
-        menuButton.addActionListener(getSwitchCardListener("menu"));
+        menuButton.addActionListener(e -> switchToPage(ViewPage.Menu));
         rules.add(rulesTitle);
         rules.add(menuButton);
     }
 
 
-    private ActionListener getSwitchCardListener(String toCard) {
-        return e -> cardLayout.show(View.this.getContentPane(), toCard);
+    public void switchToPage(ViewPage viewPage) {
+        switch (viewPage) {
+            case Menu -> cardLayout.show(getContentPane(), "menu");
+            case Game -> cardLayout.show(getContentPane(), "game");
+            case Settings -> cardLayout.show(getContentPane(), "settings");
+            case Rules -> cardLayout.show(getContentPane(), "rules");
+        }
     }
 
     public void setController(Controller controller) {

@@ -11,6 +11,7 @@ public class Sheet {
     private final ImageIcon whiteKingIcon;
     private final ImageIcon blackManIcon;
     private final ImageIcon blackKingIcon;
+
     public Sheet(String path) {
         try {
             BufferedImage sheet = ImageIO.read(new File(path));

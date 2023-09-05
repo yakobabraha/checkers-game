@@ -4,15 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Field extends JButton {
-    public enum fieldStatus {BLANK, BLACK_MAN, WHITE_MAN, BLACK_KING, WHITE_KING}
+    public enum FieldStatus {BLANK, BLACK_MAN, WHITE_MAN, BLACK_KING, WHITE_KING}
 
-    private fieldStatus occupiedBy;
+    private FieldStatus occupiedBy;
     private final Sheet sheet;
 
 
-    private Color background;
+    private final Color background;
 
-    public Field(fieldStatus occupiedBy, Color background, Sheet sheet, Board board, int row, int col) {
+    public Field(FieldStatus occupiedBy, Color background, Sheet sheet, Board board, int row, int col) {
         this.background = background;
         setBackground(background);
         this.sheet = sheet;
@@ -20,7 +20,7 @@ public class Field extends JButton {
         addActionListener(e -> board.getView().getController().handleFieldClick(row, col, board));
     }
 
-    public void setPiece(fieldStatus occupiedBy) {
+    public void setPiece(FieldStatus occupiedBy) {
         this.occupiedBy = occupiedBy;
         switch (occupiedBy) {
             case BLANK -> setIcon(null);
@@ -43,7 +43,7 @@ public class Field extends JButton {
         setBackground(Color.red);
     }
 
-    public fieldStatus getOccupiedBy() {
+    public FieldStatus getOccupiedBy() {
         return occupiedBy;
     }
 }
