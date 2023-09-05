@@ -51,14 +51,16 @@ public class Controller {
             Field.FieldStatus pieceToMove = board.getFieldStatus(startPositionRow, startPositionCol);
             boolean isNormalMove =
                     (
-                            (pieceToMove == Field.FieldStatus.BLACK_MAN || pieceToMove == Field.FieldStatus.WHITE_KING)
+                            (board.isFieldOfPlayer(true, startPositionRow, startPositionCol)
+                                    || pieceToMove == Field.FieldStatus.WHITE_KING)
                                     && row == currPositionRow - 1
                                     && (col == currPositionCol - 1
                                     && board.isFieldUnoccupied(currPositionRow - 1, currPositionCol - 1)
                                     || col == currPositionCol + 1
                                     && board.isFieldUnoccupied(currPositionRow - 1, currPositionCol + 1))
                     ) || (
-                            (pieceToMove == Field.FieldStatus.WHITE_MAN || pieceToMove == Field.FieldStatus.BLACK_KING)
+                            (board.isFieldOfPlayer(false, startPositionRow, startPositionCol)
+                                    || pieceToMove == Field.FieldStatus.BLACK_KING)
                                     && row == currPositionRow + 1
                                     && (col == currPositionCol - 1
                                     && board.isFieldUnoccupied(currPositionRow + 1, currPositionCol - 1)
@@ -66,25 +68,29 @@ public class Controller {
                                     && board.isFieldUnoccupied(currPositionRow + 1, currPositionCol + 1))
                     );
             boolean isJumpTopLeft =
-                    (pieceToMove == Field.FieldStatus.BLACK_MAN || pieceToMove == Field.FieldStatus.WHITE_KING)
+                    (board.isFieldOfPlayer(true, startPositionRow, startPositionCol)
+                            || pieceToMove == Field.FieldStatus.WHITE_KING)
                             && row == currPositionRow - 2
                             && col == currPositionCol - 2
                             && board.isFieldOfPlayer(!isBlacksTurn, currPositionRow - 1, currPositionCol - 1)
                             && board.isFieldUnoccupied(row, col);
             boolean isJumpTopRight =
-                    (pieceToMove == Field.FieldStatus.BLACK_MAN || pieceToMove == Field.FieldStatus.WHITE_KING)
+                    (board.isFieldOfPlayer(true, startPositionRow, startPositionCol)
+                            || pieceToMove == Field.FieldStatus.WHITE_KING)
                             && row == currPositionRow - 2
                             && col == currPositionCol + 2
                             && board.isFieldOfPlayer(!isBlacksTurn, currPositionRow - 1, currPositionCol + 1)
                             && board.isFieldUnoccupied(row, col);
             boolean isJumpBottomLeft =
-                    (pieceToMove == Field.FieldStatus.WHITE_MAN || pieceToMove == Field.FieldStatus.BLACK_KING)
+                    (board.isFieldOfPlayer(false, startPositionRow, startPositionCol)
+                            || pieceToMove == Field.FieldStatus.BLACK_KING)
                             && row == currPositionRow + 2
                             && col == currPositionCol - 2
                             && board.isFieldOfPlayer(!isBlacksTurn, currPositionRow + 1, currPositionCol - 1)
                             && board.isFieldUnoccupied(row, col);
             boolean isJumpBottomRight =
-                    (pieceToMove == Field.FieldStatus.WHITE_MAN || pieceToMove == Field.FieldStatus.BLACK_KING)
+                    (board.isFieldOfPlayer(false, startPositionRow, startPositionCol)
+                            || pieceToMove == Field.FieldStatus.BLACK_KING)
                             && row == currPositionRow + 2
                             && col == currPositionCol + 2
                             && board.isFieldOfPlayer(!isBlacksTurn, currPositionRow + 1, currPositionCol + 1)
@@ -93,6 +99,9 @@ public class Controller {
                 board.setFieldPiece(row, col, pieceToMove);
                 board.setFieldPiece(startPositionRow, startPositionCol, Field.FieldStatus.BLANK);
                 board.fieldToNormalColor(startPositionRow, startPositionCol);
+                if (row == 0 && isBlacksTurn || row == 7 && !isBlacksTurn) {
+                    board.promoteMan(row, col);
+                }
                 startPositionChosen = false;
                 isBlacksTurn = !isBlacksTurn;
                 view.setTurnLabel(isBlacksTurn);
@@ -144,6 +153,9 @@ public class Controller {
             board.setFieldPiece(toRemove.get(i)[0], toRemove.get(i)[1], Field.FieldStatus.BLANK);
             board.setFieldPiece(toMove.get(i - 1)[0], toMove.get(i - 1)[1], Field.FieldStatus.BLANK);
         }
+        if (currPositionRow == 0 && isBlacksTurn || currPositionRow == 7 && !isBlacksTurn) {
+            board.promoteMan(currPositionRow, currPositionCol);
+        }
         toMove.clear();
         toRemove.clear();
         jumped = startPositionChosen = false;
@@ -157,6 +169,6 @@ public class Controller {
         toMove.clear();
         toRemove.clear();
         view.startNewGame();
-        view.switchToPage(View.ViewPage.Game);
+        view.switchToPage(View.ViewPage.GAME);
     }
 }

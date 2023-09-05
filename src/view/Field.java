@@ -31,6 +31,14 @@ public class Field extends JButton {
         }
     }
 
+    public void promote() {
+        if (occupiedBy == FieldStatus.BLACK_MAN) {
+            setPiece(FieldStatus.BLACK_KING);
+        } else if (occupiedBy == FieldStatus.WHITE_MAN) {
+            setPiece(FieldStatus.WHITE_KING);
+        }
+    }
+
     public void toSelectColor() {
         setBackground(Color.CYAN);
     }

@@ -77,9 +77,9 @@ public class Board extends JPanel {
     public boolean isFieldOfPlayer(boolean isBlack, int row, int col) {
         if (row >= 0 && row < fields.length && col >= 0 && col < fields[0].length) {
             return isBlack && (getFieldStatus(row, col) == Field.FieldStatus.BLACK_MAN ||
-                    getFieldStatus(row, col) == Field.FieldStatus.BLACK_MAN) ||
+                    getFieldStatus(row, col) == Field.FieldStatus.BLACK_KING) ||
                     !isBlack && (getFieldStatus(row, col) == Field.FieldStatus.WHITE_MAN ||
-                            getFieldStatus(row, col) == Field.FieldStatus.WHITE_MAN);
+                            getFieldStatus(row, col) == Field.FieldStatus.WHITE_KING);
         }
         return false;
     }
@@ -89,5 +89,13 @@ public class Board extends JPanel {
             return fields[row][col].getOccupiedBy() == Field.FieldStatus.BLANK;
         }
         return false;
+    }
+
+    public void promoteMan(int row, int col) {
+        if (row >= 0 && row < fields.length && col >= 0 && col < fields[0].length) {
+            fields[row][col].promote();
+        } else {
+            throw new IllegalArgumentException("row/col not in bounds");
+        }
     }
 }

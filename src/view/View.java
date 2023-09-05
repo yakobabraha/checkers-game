@@ -16,7 +16,7 @@ public class View extends JFrame {
     private final JPanel settings = new JPanel();
     private final JPanel rules = new JPanel();
 
-    public enum ViewPage {Menu, Game, Settings, Rules}
+    public enum ViewPage {MENU, GAME, SETTINGS, RULES}
 
     private final JLabel turnLabel = new JLabel("Black's turn");
     private final JLabel errorLabel = new JLabel("");
@@ -63,13 +63,13 @@ public class View extends JFrame {
         settingsButton.setMaximumSize(new Dimension(400, 50));
         settingsButton.setFont(new Font("ariel", Font.PLAIN, 25));
         settingsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        settingsButton.addActionListener(e -> switchToPage(ViewPage.Settings));
+        settingsButton.addActionListener(e -> switchToPage(ViewPage.SETTINGS));
 
         JButton rulesButton = new JButton("Rules");
         rulesButton.setMaximumSize(new Dimension(400, 50));
         rulesButton.setFont(new Font("ariel", Font.PLAIN, 25));
         rulesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        rulesButton.addActionListener(e -> switchToPage(ViewPage.Rules));
+        rulesButton.addActionListener(e -> switchToPage(ViewPage.RULES));
 
         menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
         menu.add(menuTitle);
@@ -118,7 +118,7 @@ public class View extends JFrame {
         JButton menuButton = new JButton("Back to Menu");
         menuButton.setMaximumSize(new Dimension(200, 50));
         menuButton.setFont(new Font("ariel", Font.PLAIN, 25));
-        menuButton.addActionListener(e -> switchToPage(ViewPage.Menu));
+        menuButton.addActionListener(e -> switchToPage(ViewPage.MENU));
         pageEnd.add(menuButton);
 
         game.add(lineStart, BorderLayout.LINE_START);
@@ -141,7 +141,7 @@ public class View extends JFrame {
         JButton menuButton = new JButton("Back to Menu");
         menuButton.setMaximumSize(new Dimension(200, 50));
         menuButton.setFont(new Font("ariel", Font.PLAIN, 25));
-        menuButton.addActionListener(e -> switchToPage(ViewPage.Menu));
+        menuButton.addActionListener(e -> switchToPage(ViewPage.MENU));
         settings.add(settingTitle);
         settings.add(menuButton);
     }
@@ -153,7 +153,7 @@ public class View extends JFrame {
         JButton menuButton = new JButton("Back to Menu");
         menuButton.setMaximumSize(new Dimension(200, 50));
         menuButton.setFont(new Font("ariel", Font.PLAIN, 25));
-        menuButton.addActionListener(e -> switchToPage(ViewPage.Menu));
+        menuButton.addActionListener(e -> switchToPage(ViewPage.MENU));
         rules.add(rulesTitle);
         rules.add(menuButton);
     }
@@ -161,10 +161,10 @@ public class View extends JFrame {
 
     public void switchToPage(ViewPage viewPage) {
         switch (viewPage) {
-            case Menu -> cardLayout.show(getContentPane(), "menu");
-            case Game -> cardLayout.show(getContentPane(), "game");
-            case Settings -> cardLayout.show(getContentPane(), "settings");
-            case Rules -> cardLayout.show(getContentPane(), "rules");
+            case MENU -> cardLayout.show(getContentPane(), "menu");
+            case GAME -> cardLayout.show(getContentPane(), "game");
+            case SETTINGS -> cardLayout.show(getContentPane(), "settings");
+            case RULES -> cardLayout.show(getContentPane(), "rules");
         }
     }
 
