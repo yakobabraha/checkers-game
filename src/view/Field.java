@@ -3,7 +3,9 @@ package src.view;
 import javax.swing.*;
 import java.awt.*;
 
-public class Field extends JButton {
+public class Field {
+
+    private final JButton button;
     public enum FieldStatus {BLANK, BLACK_MAN, WHITE_MAN, BLACK_KING, WHITE_KING}
 
     private FieldStatus occupiedBy;
@@ -12,22 +14,24 @@ public class Field extends JButton {
 
     private final Color background;
 
-    public Field(FieldStatus occupiedBy, Color background, Sheet sheet, Board board, int row, int col) {
+    public Field(FieldStatus occupiedBy, Color background, Sheet sheet, Board board, int row, int col,
+                 JButton button) {
         this.background = background;
-        setBackground(background);
+        this.button = button;
+        button.setBackground(background);
         this.sheet = sheet;
         setPiece(occupiedBy);
-        addActionListener(e -> board.getView().getController().handleFieldClick(row, col, board));
+        button.addActionListener(e -> board.getView().getController().handleFieldClick(row, col, board));
     }
 
     public void setPiece(FieldStatus occupiedBy) {
         this.occupiedBy = occupiedBy;
         switch (occupiedBy) {
-            case BLANK -> setIcon(null);
-            case BLACK_MAN -> setIcon(sheet.getBlackManIcon());
-            case WHITE_MAN -> setIcon(sheet.getWhiteManIcon());
-            case BLACK_KING -> setIcon(sheet.getBlackKingIcon());
-            case WHITE_KING -> setIcon(sheet.getWhiteKingIcon());
+            case BLANK -> button.setIcon(null);
+            case BLACK_MAN -> button.setIcon(sheet.getBlackManIcon());
+            case WHITE_MAN -> button.setIcon(sheet.getWhiteManIcon());
+            case BLACK_KING -> button.setIcon(sheet.getBlackKingIcon());
+            case WHITE_KING -> button.setIcon(sheet.getWhiteKingIcon());
         }
     }
 
@@ -40,15 +44,15 @@ public class Field extends JButton {
     }
 
     public void toSelectColor() {
-        setBackground(Color.CYAN);
+        button.setBackground(Color.CYAN);
     }
 
     public void toNormalColor() {
-        setBackground(background);
+        button.setBackground(background);
     }
 
     public void toRemoveColor() {
-        setBackground(Color.red);
+        button.setBackground(Color.red);
     }
 
     public FieldStatus getOccupiedBy() {

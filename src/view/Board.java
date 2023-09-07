@@ -30,20 +30,24 @@ public class Board extends JPanel {
         boolean isFieldWhite = true;
         for (int row = 0; row < length; row++) {
             for (int col = 0; col < length; col++) {
+                JButton button = new JButton();
                 Field field;
                 if (isFieldWhite) {
-                    field = new Field(Field.FieldStatus.BLANK, whiteFieldColor, sheet, this, row, col);
+                    field = new Field(Field.FieldStatus.BLANK, whiteFieldColor, sheet, this, row, col, button);
                 } else {
                     if (row < (length / 2 - 1)) {
-                        field = new Field(Field.FieldStatus.WHITE_MAN, blackFieldColor, sheet, this, row, col);
+                        field = new Field(Field.FieldStatus.WHITE_MAN, blackFieldColor, sheet, this, row, col,
+                                button);
                     } else if (row > length / 2) {
-                        field = new Field(Field.FieldStatus.BLACK_MAN, blackFieldColor, sheet, this, row, col);
+                        field = new Field(Field.FieldStatus.BLACK_MAN, blackFieldColor, sheet, this, row, col,
+                                button);
                     } else {
-                        field = new Field(Field.FieldStatus.BLANK, blackFieldColor, sheet, this, row, col);
+                        field = new Field(Field.FieldStatus.BLANK, blackFieldColor, sheet, this, row, col,
+                                button);
                     }
                 }
                 isFieldWhite = !isFieldWhite;
-                add(field);
+                add(button);
                 fields[row][col] = field;
             }
             isFieldWhite = !isFieldWhite;

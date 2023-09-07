@@ -6,7 +6,9 @@ import src.controller.Controller;
 import javax.swing.*;
 import java.awt.*;
 
-public class View extends JFrame {
+public class View {
+
+    private final JFrame frame = new JFrame();
 
     private Controller controller;
 
@@ -32,20 +34,20 @@ public class View extends JFrame {
 
     private void setupFrame() {
         int frameWidth = 1200, frameHeight = 700;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(frameWidth, frameHeight);
-        setTitle("Checkers");
-        setLayout(cardLayout);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(frameWidth, frameHeight);
+        frame.setTitle("Checkers");
+        frame.setLayout(cardLayout);
         setupMenu();
-        add(menu, "menu");
+        frame.add(menu, "menu");
         setupGame();
-        add(game, "game");
+        frame.add(game, "game");
         setupSettings();
-        add(settings, "settings");
+        frame.add(settings, "settings");
         setupRules();
-        add(rules, "rules");
-        setVisible(true);
-        setResizable(false);
+        frame.add(rules, "rules");
+        frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     private void setupMenu() {
@@ -161,10 +163,10 @@ public class View extends JFrame {
 
     public void switchToPage(ViewPage viewPage) {
         switch (viewPage) {
-            case MENU -> cardLayout.show(getContentPane(), "menu");
-            case GAME -> cardLayout.show(getContentPane(), "game");
-            case SETTINGS -> cardLayout.show(getContentPane(), "settings");
-            case RULES -> cardLayout.show(getContentPane(), "rules");
+            case MENU -> cardLayout.show(frame.getContentPane(), "menu");
+            case GAME -> cardLayout.show(frame.getContentPane(), "game");
+            case SETTINGS -> cardLayout.show(frame.getContentPane(), "settings");
+            case RULES -> cardLayout.show(frame.getContentPane(), "rules");
         }
     }
 
