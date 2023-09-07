@@ -31,20 +31,23 @@ public class Controller {
     }
 
     public void handleFieldClick(int row, int col, Board board) {
-        view.setErrorLabel("");
+        view.showWarning("");
         this.board = board;
         if (!startPositionChosen) {
-            if (board.isFieldOfPlayer(true, row, col) && isBlacksTurn
-                    || board.isFieldOfPlayer(false, row, col) && !isBlacksTurn) {
+            if (!Computer.isAbleToMove(board, row, col)) {
+                view.showWarning("No legal moves!");
+                return;
+            }
+            if (board.isFieldOfPlayer(isBlacksTurn, row, col)) {
                 startPositionRow = currPositionRow = row;
                 startPositionCol = currPositionCol = col;
                 board.fieldToSelectColor(row, col);
                 startPositionChosen = true;
             } else if (board.getFieldStatus(row, col) != Field.FieldStatus.BLANK) {
                 if (isBlacksTurn) {
-                    view.setErrorLabel("It's not White's turn");
+                    view.showWarning("It's not White's turn");
                 } else {
-                    view.setErrorLabel("It's not Black's turn");
+                    view.showWarning("It's not Black's turn");
                 }
             }
         } else {
@@ -127,7 +130,7 @@ public class Controller {
                 toRemove.add(new int[]{currPositionRow + 1, currPositionCol + 1});
                 toMove.add(new int[]{row, col});
             } else {
-                view.setErrorLabel("Illegal Move");
+                view.showWarning("Illegal Move!");
                 return;
             }
             view.setMoveButtonVisible(true);

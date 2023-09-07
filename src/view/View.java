@@ -19,7 +19,7 @@ public class View extends JFrame {
     public enum ViewPage {MENU, GAME, SETTINGS, RULES}
 
     private final JLabel turnLabel = new JLabel("Black's turn");
-    private final JLabel errorLabel = new JLabel("");
+    private final JLabel warningLabel = new JLabel("                    ");
     private final Sheet sheet;
     private final JButton moveButton = new JButton("move");
 
@@ -95,15 +95,15 @@ public class View extends JFrame {
         JPanel lineStart = new JPanel();
         lineStart.setBackground(Color.gray);
         lineStart.setPreferredSize(new Dimension(300, 300));
+        lineStart.add(warningLabel);
+        warningLabel.setFont(new Font("ariel", Font.PLAIN, 20));
+        warningLabel.setForeground(Color.YELLOW);
         JPanel lineEnd = new JPanel();
         lineEnd.setBackground(Color.gray);
         lineEnd.setPreferredSize(new Dimension(300, 300));
         lineEnd.add(turnLabel);
         turnLabel.setFont(new Font("ariel", Font.PLAIN, 30));
-        lineEnd.add(errorLabel);
-        errorLabel.setFont(new Font("ariel", Font.PLAIN, 30));
-        errorLabel.setForeground(Color.YELLOW);
-        moveButton.setMaximumSize(new Dimension(200, 50));
+        moveButton.setPreferredSize(new Dimension(200, 50));
         moveButton.setFont(new Font("ariel", Font.PLAIN, 25));
         moveButton.addActionListener(e -> controller.move());
         moveButton.setVisible(false);
@@ -131,7 +131,7 @@ public class View extends JFrame {
         board.setupFields();
         setTurnLabel(true);
         setMoveButtonVisible(false);
-        setErrorLabel("");
+        showWarning("");
     }
 
     private void setupSettings() {
@@ -168,6 +168,14 @@ public class View extends JFrame {
         }
     }
 
+    public void showWarning(String warning) {
+        if (warning.equals("")) {
+            warningLabel.setText("                    ");
+        } else {
+            warningLabel.setText("Warning: " + warning);
+        }
+    }
+
     public void setController(Controller controller) {
         this.controller = controller;
     }
@@ -184,9 +192,6 @@ public class View extends JFrame {
         }
     }
 
-    public void setErrorLabel(String text) {
-        errorLabel.setText(text);
-    }
 
     public void setMoveButtonVisible(boolean visible) {
         moveButton.setVisible(visible);

@@ -74,6 +74,10 @@ public class Board extends JPanel {
         return view;
     }
 
+    public int getLength() {
+        return length;
+    }
+
     public boolean isFieldOfPlayer(boolean isBlack, int row, int col) {
         if (row >= 0 && row < fields.length && col >= 0 && col < fields[0].length) {
             return isBlack && (getFieldStatus(row, col) == Field.FieldStatus.BLACK_MAN ||
