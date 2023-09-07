@@ -34,11 +34,15 @@ public class Controller {
         view.showWarning("");
         this.board = board;
         if (!startPositionChosen) {
-            if (!Computer.isAbleToMove(board, row, col)) {
-                view.showWarning("No legal moves!");
-                return;
-            }
             if (board.isFieldOfPlayer(isBlacksTurn, row, col)) {
+                if (!Computer.canLegalMoveAtPos(board, row, col)) {
+                    view.showWarning("No legal moves!");
+                    return;
+                }
+                if (Computer.areThereJumps(isBlacksTurn, board) && !Computer.canJumpAtPos(row, col, board)) {
+                    view.showWarning("Mandatory jump!");
+                    return;
+                }
                 startPositionRow = currPositionRow = row;
                 startPositionCol = currPositionCol = col;
                 board.fieldToSelectColor(row, col);
@@ -99,6 +103,10 @@ public class Controller {
                             && board.isFieldOfPlayer(!isBlacksTurn, currPositionRow + 1, currPositionCol + 1)
                             && board.isFieldUnoccupied(row, col);
             if (isNormalMove && !jumped) {
+                if (Computer.areThereJumps(isBlacksTurn, board)) {
+                    view.showWarning("Mandatory jump!");
+                    return;
+                }
                 board.setFieldPiece(row, col, pieceToMove);
                 board.setFieldPiece(startPositionRow, startPositionCol, Field.FieldStatus.BLANK);
                 board.fieldToNormalColor(startPositionRow, startPositionCol);
@@ -141,6 +149,10 @@ public class Controller {
     }
 
     public void move() {
+        if (Computer.canJumpAtPos(currPositionRow, currPositionCol, board)) {
+            view.showWarning("Mandatory jump!");
+            return;
+        }
         view.setMoveButtonVisible(false);
         board.fieldToNormalColor(startPositionRow, startPositionCol);
         board.fieldToNormalColor(toMove.get(0)[0], toMove.get(0)[1]);
