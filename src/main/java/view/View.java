@@ -1,7 +1,7 @@
-package src.view;
+package view;
 
 
-import src.controller.Controller;
+import controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class View {
     private Board board;
 
     public View() {
-        sheet = new Sheet("res/checkers_pieces.png");
+        sheet = new Sheet("src/main/resources/checkers_pieces.png");
         setupFrame();
     }
 

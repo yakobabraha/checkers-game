@@ -1,4 +1,4 @@
-package src.view;
+package view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,6 +6,7 @@ import java.awt.*;
 public class Field {
 
     private final JButton button;
+
     public enum FieldStatus {BLANK, BLACK_MAN, WHITE_MAN, BLACK_KING, WHITE_KING}
 
     private FieldStatus occupiedBy;

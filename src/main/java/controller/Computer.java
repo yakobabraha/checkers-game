@@ -1,7 +1,7 @@
-package src.controller;
+package controller;
 
-import src.view.Board;
-import src.view.Field;
+import view.Board;
+import view.Field;
 
 
 public class Computer {

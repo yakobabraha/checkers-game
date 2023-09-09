@@ -1,9 +1,9 @@
-package src.controller;
+package controller;
 
-import src.model.Model;
-import src.view.Board;
-import src.view.Field;
-import src.view.View;
+import model.Model;
+import view.Board;
+import view.Field;
+import view.View;
 
 import java.util.ArrayList;
 import java.util.List;
