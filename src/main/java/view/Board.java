@@ -54,6 +54,29 @@ public class Board extends JPanel {
         }
     }
 
+    //build Board by int structure: 0 -> blank, 1 -> black Man, 2 -> white Man, 3 -> black King, 4 -> white King
+    public static Board buildBoard(int[][] structure) {
+        int rows = structure.length;
+        int columns = rows == 0 ? 0 : structure[0].length;
+        if (rows != columns) throw new IllegalArgumentException("Board is not a square");
+        Board board = new Board(8, new Color(102, 68, 46), new Color(247, 236, 202),
+                new Sheet("src/main/resources/checkers_pieces.png"), null);
+
+        for (int row = 0; row < rows; row++) {
+           for (int col = 0; col < columns; col++) {
+                switch (structure[row][col]) {
+                    case 0 -> board.setFieldPiece(row, col, Field.FieldStatus.BLANK);
+                    case 1 -> board.setFieldPiece(row, col, Field.FieldStatus.BLACK_MAN);
+                    case 2 -> board.setFieldPiece(row, col, Field.FieldStatus.WHITE_MAN);
+                    case 3 -> board.setFieldPiece(row, col, Field.FieldStatus.BLACK_KING);
+                    case 4 -> board.setFieldPiece(row, col, Field.FieldStatus.WHITE_KING);
+                    default -> throw new IllegalArgumentException("Only 0,1,2,3,4 are allowed for field specification");
+                }
+           }
+        }
+        return board;
+    }
+
     public void setFieldPiece(int row, int col, Field.FieldStatus fieldStatus) {
         fields[row][col].setPiece(fieldStatus);
     }
