@@ -129,4 +129,20 @@ public class Board extends JPanel {
             throw new IllegalArgumentException("row/col not in bounds");
         }
     }
+
+    public int[][] getBoardAsIntArray() {
+        int[][] boardData = new int[length][length];
+        for (int row = 0; row < length; row++) {
+            for (int col = 0; col < length; col++) {
+                switch (fields[row][col].getOccupiedBy()) {
+                    case BLANK -> boardData[row][col] = 0;
+                    case BLACK_MAN -> boardData[row][col] = 1;
+                    case WHITE_MAN -> boardData[row][col] = 2;
+                    case BLACK_KING -> boardData[row][col] = 3;
+                    case WHITE_KING -> boardData[row][col] = 4;
+                }
+            }
+        }
+        return boardData;
+    }
 }

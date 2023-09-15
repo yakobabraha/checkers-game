@@ -1,6 +1,6 @@
 package controller;
 
-import model.Model;
+
 import view.Board;
 import view.Field;
 import view.View;
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
-    private final Model model;
     private final View view;
 
     private Board board;
@@ -25,8 +24,7 @@ public class Controller {
     private final List<int[]> toRemove = new ArrayList<>();
     private final List<int[]> toMove = new ArrayList<>();
 
-    public Controller(Model model, View view) {
-        this.model = model;
+    public Controller(View view) {
         this.view = view;
     }
 
@@ -178,12 +176,10 @@ public class Controller {
         view.setTurnLabel(isBlacksTurn);
     }
 
-    public void switchToGame() {
+    public void resetGameStatus() {
         isBlacksTurn = true;
         jumped = startPositionChosen = false;
         toMove.clear();
         toRemove.clear();
-        view.startNewGame();
-        view.switchToPage(View.ViewPage.GAME);
     }
 }

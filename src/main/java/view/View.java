@@ -2,6 +2,7 @@ package view;
 
 
 import controller.Controller;
+import model.Model;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ public class View {
     private final JFrame frame = new JFrame();
 
     private Controller controller;
+    private Model model;
 
     private final CardLayout cardLayout = new CardLayout();
     private final JPanel menu = new JPanel();
@@ -55,11 +57,11 @@ public class View {
         menuTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         menuTitle.setFont(new Font("ariel", Font.BOLD, 50));
 
-        JButton gameButton = new JButton("New Game");
-        gameButton.setMaximumSize(new Dimension(400, 50));
-        gameButton.setFont(new Font("ariel", Font.PLAIN, 25));
-        gameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        gameButton.addActionListener(e -> controller.switchToGame());
+        JButton playButton = new JButton("Play");
+        playButton.setMaximumSize(new Dimension(400, 50));
+        playButton.setFont(new Font("ariel", Font.PLAIN, 25));
+        playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playButton.addActionListener(e -> playClicked());
 
         JButton settingsButton = new JButton("Settings");
         settingsButton.setMaximumSize(new Dimension(400, 50));
@@ -77,7 +79,7 @@ public class View {
         menu.add(menuTitle);
         menu.add(new Box.Filler(new Dimension(100, 5), new Dimension(50, 50),
                 new Dimension(100, 50)));
-        menu.add(gameButton);
+        menu.add(playButton);
         menu.add(new Box.Filler(new Dimension(100, 5), new Dimension(100, 100),
                 new Dimension(100, 50)));
         menu.add(settingsButton);
@@ -129,12 +131,7 @@ public class View {
         game.add(pageEnd, BorderLayout.PAGE_END);
     }
 
-    public void startNewGame() {
-        board.setupFields();
-        setTurnLabel(true);
-        setMoveButtonVisible(false);
-        showWarning("");
-    }
+
 
     private void setupSettings() {
         //dummy...
@@ -197,5 +194,45 @@ public class View {
 
     public void setMoveButtonVisible(boolean visible) {
         moveButton.setVisible(visible);
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    public void startNewGame() {
+        board.setupFields();
+        setTurnLabel(true);
+        setMoveButtonVisible(false);
+        showWarning("");
+    }
+
+    public void playClicked() {
+        if (model.isGameRunning()) {
+            int result = JOptionPane.showOptionDialog(
+                    frame,
+                    "Your last Game is still running.",
+                    "Play",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Keep playing", "New game"},
+                    "Keep playing"
+            );
+            switch (result) {
+                case 0 -> switchToPage(ViewPage.GAME);
+                case 1 -> {
+                    controller.resetGameStatus();
+                    model.saveNewGame(board);
+                    startNewGame();
+                    switchToPage(View.ViewPage.GAME);
+                }
+            }
+        } else {
+            controller.resetGameStatus();
+            model.saveNewGame(board);
+            startNewGame();
+            switchToPage(View.ViewPage.GAME);
+        }
     }
 }
